@@ -1,32 +1,31 @@
-<script setup lang="ts">
 
-</script>
 
 <template>
   <div>
-    <p class="quote">{{quote}}</p>
+    <p class="quote">"{{ quote }}"</p>
     <button @click="newQuote">New Quote</button>
   </div>
 </template>
 
-
-<script setup>
+<script setup lang="ts">
   import { ref } from 'vue'
 
-  const quotes = [
+  const quotes: string[] = [
     "Success is not final; failure is not fatal.",
     "Do something today that your future self will thank you for.",
     "The only limit is your mind.",
     "Small steps every day."
   ]
 
-  const quote = ref(localStorage.getItem('dailyQuote') || random())
+  const quote = ref<string>(
+    localStorage.getItem('dailyQuote') || random()
+  )
 
-  function random() {
+  function random(): string {
     return quotes[Math.floor(Math.random() * quotes.length)]
   }
 
-  function newQuote() {
+  function newQuote(): void {
     quote.value = random()
     localStorage.setItem('dailyQuote', quote.value)
   }
@@ -36,9 +35,5 @@
   .quote {
     font-style: italic;
     margin-bottom: 15px;
-  }
-
-  button {
-    cursor: pointer;
   }
 </style>

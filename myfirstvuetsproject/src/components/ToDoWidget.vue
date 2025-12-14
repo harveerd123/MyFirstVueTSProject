@@ -1,6 +1,4 @@
-<script setup lang="ts">
 
-</script>
 
 
 <template>
@@ -20,55 +18,37 @@
   </div>
 </template>
 
-<script setup>
-  import { ref, watch } from 'vue'
+<script setup lang="ts">
+  import { ref } from 'vue'
 
-  const tasks = ref(JSON.parse(localStorage.getItem('tasks') || '[]'))
-  const newTask = ref('')
+  interface Task {
+    text: string
+    done: boolean
+  }
 
-  const addTask = () => {
+  const tasks = ref<Task[]>(JSON.parse(localStorage.getItem('tasks') || '[]'))
+  const newTask = ref<string>('')
+
+  function addTask(): void {
     if (!newTask.value.trim()) return
     tasks.value.push({ text: newTask.value, done: false })
     newTask.value = ''
     save()
   }
 
-  const removeTask = (i) => {
+  function removeTask(i: number): void {
     tasks.value.splice(i, 1)
     save()
   }
 
-  const save = () => {
+  function save(): void {
     localStorage.setItem('tasks', JSON.stringify(tasks.value))
   }
 </script>
 
 <style scoped>
-  .add {
-    display: flex;
-    gap: 10px;
-  }
-
-  .tasks {
-    list-style: none;
-    padding: 0;
-    margin-top: 15px;
-  }
-
-    .tasks li {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 8px;
-    }
-
   .done {
     text-decoration: line-through;
     color: #888;
   }
-
-  button {
-    cursor: pointer;
-  }
 </style>
-
